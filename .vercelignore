@@ -7,9 +7,7 @@ env/
 __pycache__/
 *.log
 
-# Ignore local development settings
-*.sqlite3
-*.db
+
 
 # Ignore static files that have already been collected
 static/
