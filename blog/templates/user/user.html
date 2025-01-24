@@ -1,0 +1,271 @@
+{% extends "user/base.html" %}
+
+{% include 'blogs/_alerts.html' %}
+
+{% block content %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Velonic</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+                                <li class="breadcrumb-item active">Welcome!</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">Welcome!</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card widget-flat text-bg-primary">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="ri-book-line widget-icon"></i>
+                            </div>
+                            <h6 class="text-uppercase mt-0" title="Customers">My total posts</h6>
+                            <h2 class="my-2">{{posts.count}}</h2>
+                            
+                        </div>
+                    </div>
+                </div> <!-- end col-->
+
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card widget-flat text-bg-purple">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="ri-wallet-2-line widget-icon"></i>
+                            </div>
+                            <h6 class="text-uppercase mt-0" title="Customers">Total Users</h6>
+                            <h2 class="my-2">96565</h2>
+                            
+                        </div>
+                    </div>
+                </div> <!-- end col-->
+
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card widget-flat text-bg-info">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="ri-shopping-basket-line widget-icon"></i>
+                            </div>
+                            <h6 class="text-uppercase mt-0" title="Customers">total posts</h6>
+                            <h2 class="my-2">7576573</h2>
+                           
+                        </div>
+                    </div>
+                </div> <!-- end col-->
+
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card widget-flat text-bg-pink">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="ri-group-2-line widget-icon"></i>
+                            </div>
+                            <h6 class="text-uppercase mt-0" title="Customers">followers</h6>
+                            <h2 class="my-2">63,154</h2>
+                            
+                        </div>
+                    </div>
+                </div> <!-- end col-->
+            </div>
+
+          
+           
+
+        </div>
+        <!-- container -->
+
+    </div>
+    <!-- content -->
+
+
+    <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        {% if posts %}
+          
+        <div class="wrapper">
+            <div class="content-page">
+                <div class="content">
+    
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+    
+                        
+    
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="input-group">
+                                            <input type="text" id="example-input1-group2" name="search"  class="form-control" placeholder="Search">
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-primary rounded-start-0"><i class="ri-search-line fs-16"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End row -->
+    
+                        <div class="row">
+                            {% for post in page_obj %}
+                            <div class="col-md-6 mb-4">
+                                <div class="card shadow-sm" style="min-height: 350px; max-height: 450px;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-start justify-content-between">
+                                            <div class="d-flex">
+                                                <a class="me-3" href="#">
+                                                    {% if post.image %}
+                                                    <img class="rounded-circle" src="{{ post.image.url }}" alt="{{ post.title }}" 
+                                                        style="width: 70px; height: 70px; object-fit: cover;">
+                                                    {% else %}
+                                                    <img class="rounded-circle" src="/static/blog/img/default-avatar.jpg" alt="Default Image" 
+                                                        style="width: 70px; height: 70px; object-fit: cover;">
+                                                    {% endif %}
+                                                </a>
+                                                <div>
+                                                    <h5 class="fs-18 my-1 text-truncate" style="max-width: 200px;">{{ post.title }}</h5>
+                                                    <p class="text-muted fs-15 mb-0">{{ post.author }}</p>
+                                                    <small class="text-muted">Category: <strong>{{ post.category.name }}</strong></small><br>
+                                                    <small class="text-muted">Posted on: <strong>{{ post.date_posted|date:"d F Y" }}</strong></small>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a href="#" class="btn btn-success btn-sm me-1 tooltips" data-bs-toggle="tooltip" 
+                                                    data-bs-placement="top" title="Edit">
+                                                    <i class="ri-pencil-fill"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-danger btn-sm tooltips" data-bs-toggle="tooltip" 
+                                                    data-bs-placement="top" title="Delete">
+                                                    <i class="ri-close-fill"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                        
+                                        <hr>
+                                        <p class="text-muted" style="min-height: 80px; max-height: 100px; overflow: hidden; text-overflow: ellipsis;">
+                                            {{ post.content|truncatechars:200 }}
+                                        </p>
+                        
+                                        <div class="text-end">
+                                            <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm">Read More</a>
+                                        </div>
+                                    </div>
+                                    <!-- card-body -->
+                                </div>
+                                <!-- card -->
+                            </div>
+                            <!-- end col -->
+                            {% endfor %}
+                        </div>
+                        <!-- End row -->
+                         <!-- End row -->
+    
+      
+    
+    
+                    </div> <!-- container -->
+
+                    <!-- Pagination -->
+                    <div class="card">
+                        <div class="card-body">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination mb-0">
+                                    <!-- Previous Page -->
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                    </li>
+                                    {% endif %}
+
+                                    <!-- Page Numbers -->
+                                    {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    <!-- Next Page -->
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Next</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+    
+                </div> <!-- content -->
+    
+
+
+
+                <!-- Footer Start -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <script>document.write(new Date().getFullYear())</script> © Velonic - Theme by <b>Techzaa</b>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- end Footer -->
+    
+            </div>
+
+        </div>
+        {% else %}
+        <p class="text-muted text-center">No posts found. Start creating one!</p>
+        {% endif %}
+        
+        
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    <!-- Footer Start -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end Footer -->
+
+</div>
+{% endblock content %}
+

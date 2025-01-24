@@ -1,0 +1,110 @@
+{% extends "user/base.html" %}
+{% block title %}
+  Create Post
+{% endblock title %}
+{% block content %}
+    <!-- settings -->
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="profile-bg-picture"
+                            style="background-image:url('/static/user/images/bg-profile.jpg')">
+                            <span class="picture-bg-overlay"></span>
+                            <!-- overlay -->
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card p-0">
+                            <div class="card-body p-0">
+                                <div class="profile-content">
+
+                                    <ul class="nav nav-underline nav-justified gap-0">
+                                       
+                                        <li class="nav-item"><a class="nav-link" 
+                                               
+                                                aria-controls="home" aria-selected="true"
+                                                >CREATE A POST</a></li>
+                                        
+                                    </ul>
+                                    
+
+                                    <div class=" m-0 p-4">
+                                        
+
+                                        <!-- settings -->
+                                        <div id="edit-profile" class="tab-pane">
+                                            <div class="user-profile-content">
+                                                <form method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="row row-cols-sm-2 row-cols-1">
+                                                        <div class="mb-2">
+                                                            <label class="form-label" for="Title">Title</label>
+                                                            <input type="text" placeholder="Enter Title of Post" name="title"
+                                                                class="form-control">
+                                                        </div>
+                                                        
+                                                        
+                                                        <!-- <div class="mb-3">
+                                                            <label class="form-label"
+                                                                for="Category">Category</label>
+                                                            <input type="text" value="Choose Category" name="category"
+                                                                class="form-control">
+                                                        </div> -->
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="Category">Category</label>
+                                                            <select name="category" id="Category" class="form-control">
+                                                                <option value="" disabled selected>Choose Category</option>
+                                                                {% for category in categories %}
+                                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="mb-3">
+                                                            <label class="form-label"
+                                                                for="Username">Image</label>
+                                                            <input type="file" placeholder="Choose image" name="image" 
+                                                                class="form-control">
+                                                        </div>
+                                                        
+                                                        
+                                                        <div class="col-sm-12 mb-3">
+                                                            <label class="form-label" for="AboutMe">Blog Content</label>
+                                                            <textarea style="height: 125px;" name="content" placeholder="Enter blog content..."
+                                                                class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-primary" type="submit"><i
+                                                            class="ri-save-line me-1 fs-16 lh-1"></i> Create</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+            </div>
+            <!-- end row -->
+
+        </div>
+        <!-- container -->
+
+    </div>
+{% endblock content %}

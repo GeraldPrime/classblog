@@ -1,0 +1,257 @@
+{% extends 'blogs/base.html' %}
+
+{% load static %}
+
+{% include 'blog/_alerts.html' %}
+
+{% block body %}
+
+
+  
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div id="hot-post" class="row hot-post">
+			{% for post in posts %}
+			{% if forloop.last %}
+			  
+			
+			<div class="col-md-8 hot-post-left">
+				<!-- post -->
+				<div class="post post-thumb">
+					{% if post.image %}
+					<!-- <a class="post-img" href="blog-post.html"><img src="/static/blog/img/hot-post-1.jpg" alt=""></a> -->
+					<a class="post-img" href="/post/{{post.id}}"  style="height: 507;"><img src="{{ post.image.url }}" alt=""></a>
+					{% endif %}
+					<div class="post-body">
+						<div class="post-category">
+							<a href="category.html">{{post.category}}</a>
+						</div>
+						<h3 class="post-title title-lg"><a href="{% url 'single_post' post.id %}">{{post.title}}</a></h3>
+						<ul class="post-meta">
+							<li><a >{{post.author}}</a></li>
+							<li>{{ post.date_posted|date:"d F, Y" }}</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /post -->
+			</div>
+			{% endif %}
+			{% endfor %}
+
+			<div class="col-md-4 hot-post-right">
+				<!-- post -->
+				{% for post in posts %}
+				{% if forloop.revcounter == 2 %}
+				<div class="post post-thumb">
+					
+					<a class="post-img" href="{% url 'single_post' post.id %}"><img src="{{ post.image.url }}" alt=""></a>
+					
+					<div class="post-body">
+						<div class="post-category">
+							<a href="category.html">{{post.category}}</a>
+						</div>
+						<h3 class="post-title"><a href="{% url 'single_post' post.id %}">{{post.title}}</a></h3>
+						<ul class="post-meta">
+							<li><a href="author.html">{{post.author}}</a></li>
+							<li>{{ post.date_posted|date:"d F, Y" }}</li>
+						</ul>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+				<!-- /post -->
+
+				<!-- post -->
+				<div class="post post-thumb">
+					<a class="post-img" href="{% url 'single_post' third_to_last.id %}" style="height: 250px;"><img src="{{ third_to_last.image.url }}" alt=""></a>
+					<div class="post-body">
+						<div class="post-category">
+							<a href="category.html">{{third_to_last.category}}</a>
+						</div>
+						<h3 class="post-title"><a href="{% url 'single_post' third_to_last.id %}">{{third_to_last.title}}</a></h3>
+						<ul class="post-meta">
+							<li><a href="author.html">{{third_to_last.author}}</a></li>
+							<li>{{ third_to_last.date_posted|date:"d F, Y" }}</li>
+						</ul>
+					</div>
+				</div>
+				  
+				
+				<!-- /post -->
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->
+
+
+
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-8">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-title">
+							<h2 class="title">Recent posts</h2>
+						</div>
+					</div>
+
+
+					{% for post in posts_by_date  %}
+					  
+					<!-- post -->
+					<div class="col-md-6">
+						<div class="post">
+							<a class="post-img" href="{% url 'single_post' post.id %}" style="height: 250px;"><img src="{{ post.image.url }}" alt=""></a>
+							<div class="post-body">
+								<div class="post-category">
+									<a href="category.html">{{ post.categoty }}</a>
+								</div>
+								<h3 class="post-title"><a href="{% url 'single_post' post.id %}">{{post.title}}</a></h3>
+								<ul class="post-meta">
+									<li><a href="author.html">{{post.author}}</a></li>
+									<li>{{ post.date_posted|date:"d F, Y" }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					<!-- /post -->
+
+
+
+					<div class="clearfix visible-md visible-lg"></div>
+
+					
+				</div>
+				<!-- /row -->
+
+				<!-- Check if there are any "Sports" posts -->
+
+				
+				<!-- /row -->
+
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-title">
+							<h2 class="title">Sports</h2>
+						</div>
+					</div>
+					<!-- post -->
+					{% for post in posts %}
+					{% if post.category.name == 'Sports' %}
+					<div class="col-md-4">
+						<div class="post post-sm">
+							<a class="post-img" href="{% url 'single_post' post.id %}" style="height: 150px !important;"><img src="{{ post.image.url }}" alt=""></a>
+							<div class="post-body">
+								<div class="post-category">
+									<a href="category.html">{{ post.category }}</a>
+								</div>
+								<h3 class="post-title title-sm"><a href="{% url 'single_post' post.id %}">{{ post.title }}</a></h3>
+								<ul class="post-meta">
+									<li><a href="author.html">{{ post.author }}</a></li>
+									<li>{{ post.date_posted|date:"d F Y" }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+					<!-- /post -->
+
+					<!-- /post -->
+				</div>
+				<!-- /row -->
+
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-title">
+							<h2 class="title">Politics</h2>
+						</div>
+					</div>
+					<!-- post -->
+					 {% for post in politics_posts %}
+					 <div class="col-md-4">
+						<div class="post post-sm">
+							<a class="post-img" href="{% url 'single_post' post.id %}"><img src="{{ post.image.url }}" alt=""></a>
+							<div class="post-body">
+								<div class="post-category">
+									<a href="category.html">{{post.category}}</a>
+								</div>
+								<h3 class="post-title title-sm"><a href="{% url 'single_post' post.id %}">{{post.title}}</a></h3>
+								<ul class="post-meta">
+									<li><a href="author.html">{{post.author}}</a></li>
+									<li>{{post.date|date:'d F Y'}}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					   
+					 {% endfor %}
+					
+					<!-- /post -->
+
+					<!-- post -->
+					
+					<!-- /post -->
+				</div>
+
+				<!-- /row -->
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-title">
+							<h2 class="title">MORE</h2>
+						</div>
+					</div>
+					<!-- post -->
+					 {% for post in more %}
+					 <div class="col-md-4">
+						<div class="post post-sm">
+							<a class="post-img" href="{% url 'single_post' post.id %}"><img src="{{ post.image.url }}" alt=""></a>
+							<div class="post-body">
+								<div class="post-category">
+									<a href="category.html">{{post.category}}</a>
+								</div>
+								<h3 class="post-title title-sm"><a href="{% url 'single_post' post.id %}">{{post.title}}</a></h3>
+								<ul class="post-meta">
+									<li><a href="author.html">{{post.author}}</a></li>
+									<li>{{post.date|date:'d F Y'}}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					   
+					 {% endfor %}
+					
+					<!-- /post -->
+
+					<!-- post -->
+					
+					<!-- /post -->
+				</div>
+			</div>
+
+
+			{% include 'blogs/_categories.html' %}
+			
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->
+{% endblock body %}
+
