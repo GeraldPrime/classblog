@@ -10,9 +10,14 @@
             "dest": "/static/$1"
         },
         {
+            "src": "/uploads/(.*)",
+            "dest": "/uploads/uploads/$1"
+        },
+        {
             "src": "/(.*)",
             "dest": "classblog/wsgi.py"
         }
+        
     ]
 
 }
