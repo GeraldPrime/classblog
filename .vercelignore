@@ -13,5 +13,5 @@ __pycache__/
 static/
 
 # Ignore uploads and other large directories
-media/
-uploads/
+# media/
+# uploads/
