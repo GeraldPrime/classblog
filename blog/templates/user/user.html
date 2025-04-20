@@ -60,7 +60,8 @@
                                 <i class="ri-shopping-basket-line widget-icon"></i>
                             </div>
                             <h6 class="text-uppercase mt-0" title="Customers">total posts</h6>
-                            <h2 class="my-2">7576573</h2>
+                            <h2 class="my-2">{{total}}</h2>
+                            <!-- <h2 class="my-2">{{all.count}}</h2> --> this works too
                            
                         </div>
                     </div>
@@ -96,9 +97,9 @@
 
         {% if posts %}
           
-        <div class="wrapper">
+        <!-- <div class="wrapper">
             <div class="content-page">
-                <div class="content">
+                <div class="content"> -->
     
                     <!-- Start Content-->
                     <div class="container-fluid">
@@ -145,14 +146,27 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <a href="#" class="btn btn-success btn-sm me-1 tooltips" data-bs-toggle="tooltip" 
+                                                <a href="{% url 'update_post' post.id %}" class="btn btn-success btn-sm me-1 tooltips" data-bs-toggle="tooltip" 
                                                     data-bs-placement="top" title="Edit">
                                                     <i class="ri-pencil-fill"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-danger btn-sm tooltips" data-bs-toggle="tooltip" 
+                                                <form action="{% url 'delete_post' post.id %}" method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <!-- <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm tooltips" data-bs-toggle="tooltip" 
                                                     data-bs-placement="top" title="Delete">
-                                                    <i class="ri-close-fill"></i>
-                                                </a>
+                                                    <i class="ri-close-fill"></i> -->
+                                                    <button type="submit" 
+                                                            class="btn btn-danger btn-sm tooltips" 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="top" 
+                                                            title="Delete"
+                                                            onclick="return confirm('Are you sure you want to delete this post?')">
+                                                        <!-- <i class="ri-delete-bin-fill"></i> -->
+                                                        <i class="mdi mdi-delete"></i>
+                                                    </button>
+
+                                                </form>
+                                                
                                             </div>
                                         </div>
                         
@@ -162,7 +176,7 @@
                                         </p>
                         
                                         <div class="text-end">
-                                            <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm">Read More</a>
+                                            <a href="{% url 'single_post' post.id %}" class="btn btn-primary btn-sm">Read More</a>
                                         </div>
                                     </div>
                                     <!-- card-body -->

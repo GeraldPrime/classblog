@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-+aqvwk_&_7fb)c$uz0mzc0^16y18bvhgdp@$f*4mnw7mh-a6s#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -140,4 +140,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads', 'uploads')  # Directory to store 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/blogs/signin/'
+LOGIN_URL = '/signin/'

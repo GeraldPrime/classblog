@@ -5,6 +5,7 @@ from .models import Post,Category
 from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 from django.contrib import messages
 
@@ -45,6 +46,16 @@ def signup(request):
 
 
 def signin(request):
+    
+    # If the user is already logged in, redirect to home page
+    # if request.user.is_authenticated:
+    #     return redirect('home-page')
+    
+    
+    # If the user is not authenticated and trying to access the page
+    if not request.user.is_authenticated and request.GET.get('next'):
+        messages.info(request, "You need to login to access this page.")
+
     if request.method == 'POST':
         form = request.POST
         name_or_email = form.get('name')  # This can be either username or email
@@ -107,6 +118,8 @@ def user_home(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
+        'total':Post.objects.count,
+        # 'all':Post.objects.order_by('-date_posted'), this works too
         'posts': Post.objects.filter(author= request.user).order_by('-date_posted'),
         'page_obj': page_obj,
     }
@@ -158,7 +171,43 @@ def single_post(request, id):
         
     return render(request, "blogs/single_post.html", context)
 
+@login_required
+def update_post(request,id):
+    post = get_object_or_404(Post, id=id)
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        new_image = request.FILES.get('image')  # Fetch the uploaded image
+        category_id = request.POST.get('category')  # Get the selected category
+        category = Category.objects.get(id=category_id)  # Get the Category object
+        post.title = title
+        post.content = content
+        post.category = category
+        
+        # Only update image if a new one was uploaded
+        if new_image:
+            post.image = new_image        
+        
+        post.save()
+        # Add a success flash message
+        messages.success(request, 'Your post has been updated successfully!')
+        # return redirect('single_post', id=id)
+        return redirect('user-home')
+    
+    categories = Category.objects.all(),
+    
+    return render(request, 'user/update_post.html', {'post': post, 'categories': categories})
 
+@login_required
+def delete_post(request, id):
+    
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=id)
+        post.delete()
+        # Add a success flash message
+        messages.success(request, 'Your post has been deleted successfully!')
+        return redirect('user-home')
+    
 
 
 def signout(request):
