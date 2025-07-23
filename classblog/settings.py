@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-+aqvwk_&_7fb)c$uz0mzc0^16y18bvhgdp@$f*4mnw7mh-a6s#
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '*'
+    '*',
+    '31.97.59.213',
+    '31.97.59.213:8000',
     '.onrender.com', 
     'localhost',                  
     '127.0.0.1',                 
@@ -126,10 +128,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Directory where all static files will be collected during `collectstatic`
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
