@@ -1,0 +1,42 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches: [ main ]  # Change to your default branch if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /opt/myproject/myproject/classblog
+          
+          # Pull latest changes
+          git pull origin main
+          
+          # Activate virtual environment
+          source /opt/myproject/venv/bin/activate
+          
+          # Install/update dependencies
+          pip install -r requirements.txt
+          
+          # Run database migrations
+          python manage.py migrate
+          
+          # Collect static files
+          python manage.py collectstatic --noinput
+          
+          # Restart gunicorn service
+          sudo systemctl restart gunicorn
+          
+          # Reload nginx (in case of config changes)
+          sudo systemctl reload nginx
+          
+          echo "✅ Deployment completed successfully!"
