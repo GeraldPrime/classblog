@@ -22,6 +22,7 @@ def signup(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
 
+
         # Check if the username already exists
         if User.objects.filter(username=name).exists():
             messages.error(request, 'Username already taken. Please choose another.')
