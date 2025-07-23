@@ -1,8 +1,9 @@
+
 name: Deploy to Hostinger VPS
 
 on:
   push:
-    branches: [ main ]  # Change to your default branch if different
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -16,27 +17,49 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          set -e  # Exit on any error
+          
           cd /opt/myproject/myproject/classblog
           
+          # Show current status
+          echo "Current git status:"
+          git status
+          
           # Pull latest changes
+          echo "Pulling latest changes..."
           git pull origin main
           
           # Activate virtual environment
-          source /opt/myproject/venv/bin/activate
+          echo "Activating virtual environment..."
+          source /opt/myproject/bin/activate
           
           # Install/update dependencies
+          echo "Installing dependencies..."
           pip install -r requirements.txt
           
           # Run database migrations
+          echo "Running migrations..."
           python manage.py migrate
           
           # Collect static files
+          echo "Collecting static files..."
           python manage.py collectstatic --noinput
           
-          # Restart gunicorn service
-          sudo systemctl restart gunicorn
+          # Kill existing gunicorn processes
+          echo "Stopping existing gunicorn processes..."
+          sudo pkill -f gunicorn || true
           
-          # Reload nginx (in case of config changes)
+          # Start gunicorn in background
+          echo "Starting gunicorn..."
+          nohup /opt/myproject/bin/gunicorn --bind 0.0.0.0:8000 classblog.wsgi > /var/log/gunicorn.log 2>&1 &
+          
+          # Give it a moment to start
+          sleep 2
+          
+          # Reload nginx
+          echo "Reloading nginx..."
           sudo systemctl reload nginx
           
           echo "✅ Deployment completed successfully!"
+          echo "Recent commits:"
+          git log --oneline -3
